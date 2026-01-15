@@ -4,6 +4,7 @@ import DailyView from './components/DailyView';
 import IdeaView from './components/IdeaView';
 import AllTasksView from './components/AllTasksView';
 import SettingsView from './components/SettingsView';
+import AIAssistantView from './components/AIAssistantView';
 import EventModal from './components/EventModal';
 import { ViewMode, IEvent, EventScope, EventType, EventStatus, EventPriority, UserSettings } from './types';
 import { getEvents, saveEvent, deleteEvent, toggleEventStatus, getSettings, saveSettings } from './services/storageService';
@@ -188,6 +189,10 @@ const App: React.FC = () => {
           />
         )}
 
+        {currentView === ViewMode.AI_ASSISTANT && (
+          <AIAssistantView />
+        )}
+
         {currentView === ViewMode.SETTINGS && (
           <SettingsView
              settings={settings}
@@ -195,7 +200,7 @@ const App: React.FC = () => {
           />
         )}
 
-        {currentView !== ViewMode.DAY && currentView !== ViewMode.IDEAS && currentView !== ViewMode.ALL_TASKS && currentView !== ViewMode.SETTINGS && (
+        {currentView !== ViewMode.DAY && currentView !== ViewMode.IDEAS && currentView !== ViewMode.ALL_TASKS && currentView !== ViewMode.AI_ASSISTANT && currentView !== ViewMode.SETTINGS && (
           <div className="flex flex-col items-center justify-center h-[60vh] text-center space-y-4">
              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
                 <Menu size={32} />

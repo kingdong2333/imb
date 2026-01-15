@@ -23,6 +23,7 @@ export enum ViewMode {
   YEAR = 'YEAR',
   IDEAS = 'IDEAS',
   ALL_TASKS = 'ALL_TASKS',
+  AI_ASSISTANT = 'AI_ASSISTANT',
   SETTINGS = 'SETTINGS'
 }
 

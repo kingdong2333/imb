@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Calendar, PieChart, Briefcase, Settings, Plus, Lightbulb, ListTodo } from 'lucide-react';
+import { LayoutDashboard, Calendar, PieChart, Briefcase, Settings, Plus, Lightbulb, ListTodo, Sparkles } from 'lucide-react';
 import { ViewMode, UserSettings, EventScope } from '../types';
 import MiniCalendar from './MiniCalendar';
 
@@ -55,6 +55,17 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentDate, onChangeVie
         {/* Manage Section */}
         <div className="space-y-1">
           <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Manage</p>
+          <button
+            onClick={() => onChangeView(ViewMode.AI_ASSISTANT)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+              currentView === ViewMode.AI_ASSISTANT 
+                ? 'bg-purple-50 text-purple-900 border border-purple-200/50' 
+                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            <Sparkles size={18} className={currentView === ViewMode.AI_ASSISTANT ? 'text-purple-500 fill-purple-500' : 'text-gray-400'} />
+            AI 助手
+          </button>
           <button
             onClick={() => onChangeView(ViewMode.IDEAS)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
