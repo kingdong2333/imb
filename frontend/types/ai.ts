@@ -54,7 +54,7 @@ export interface AITask {
   description?: string;
   type: AITaskType;
   status: AITaskStatus;
-  eventId?: number;
+  eventId?: string;
   createdAt: string;
   updatedAt: string;
   completedAt?: string;
@@ -138,7 +138,7 @@ export interface CreateAITaskRequest {
   title: string;
   description?: string;
   type: AITaskType;
-  eventId?: number;
+  eventId?: string;
 }
 
 export interface CreateConversationResponse {

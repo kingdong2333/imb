@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<IEvent | undefined>(undefined);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [targetAIEvent, setTargetAIEvent] = useState<IEvent | null>(null);
 
   // Load data
   const refreshEvents = () => {
@@ -64,6 +65,11 @@ const App: React.FC = () => {
     // If the current view was disabled, switch to a safe default
     // e.g., if user was on Year view and disabled it
     // For now, simpler to just keep them on Settings view or switch to Day
+  };
+
+  const handleOpenAI = (event: IEvent) => {
+    setTargetAIEvent(event);
+    setCurrentView(ViewMode.AI_ASSISTANT);
   };
 
   // Idea specific handlers
@@ -168,6 +174,7 @@ const App: React.FC = () => {
             onToggleStatus={handleToggleStatus}
             onDelete={handleDeleteEvent}
             onEdit={handleEditEvent}
+            onOpenAI={handleOpenAI}
           />
         )}
 
@@ -190,7 +197,10 @@ const App: React.FC = () => {
         )}
 
         {currentView === ViewMode.AI_ASSISTANT && (
-          <AIAssistantView />
+          <AIAssistantView 
+            targetEvent={targetAIEvent} 
+            onClearTarget={() => setTargetAIEvent(null)} 
+          />
         )}
 
         {currentView === ViewMode.SETTINGS && (

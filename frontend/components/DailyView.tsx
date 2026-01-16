@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Check, Trash2, Edit2, Calendar as CalendarIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Trash2, Edit2, Calendar as CalendarIcon, Sparkles } from 'lucide-react';
 import { IEvent, EventStatus, EventType, EventScope } from '../types';
 import { formatDateISO, formatDisplayDate, getRelativeDateLabel, addDays } from '../utils/dateUtils';
 
@@ -10,6 +10,7 @@ interface DailyViewProps {
   onToggleStatus: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (event: IEvent) => void;
+  onOpenAI: (event: IEvent) => void;
 }
 
 const DailyView: React.FC<DailyViewProps> = ({ 
@@ -18,7 +19,8 @@ const DailyView: React.FC<DailyViewProps> = ({
   events, 
   onToggleStatus, 
   onDelete,
-  onEdit 
+  onEdit,
+  onOpenAI
 }) => {
   const [hoveredEventId, setHoveredEventId] = useState<string | null>(null);
 
@@ -146,6 +148,15 @@ const DailyView: React.FC<DailyViewProps> = ({
 
                 {/* Actions (Hover) */}
                 <div className={`flex flex-col gap-1 transition-opacity ${hoveredEventId === event.id ? 'opacity-100' : 'opacity-0 md:opacity-0'}`}>
+                  {event.type === EventType.LEARNING && (
+                    <button
+                      onClick={() => onOpenAI(event)}
+                      className="p-2 text-purple-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
+                      title="AI Assistant"
+                    >
+                      <Sparkles size={16} />
+                    </button>
+                  )}
                   <button 
                     onClick={() => onEdit(event)}
                     className="p-2 text-gray-400 hover:text-boss-600 hover:bg-gray-100 rounded-lg"

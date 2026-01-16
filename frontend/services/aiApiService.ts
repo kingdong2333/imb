@@ -50,12 +50,14 @@ export const aiTaskApi = {
   getTasks: async (params?: {
     status?: AITaskStatus;
     type?: string;
+    eventId?: string;
     page?: number;
     size?: number;
   }): Promise<{ content: AITask[]; totalElements: number; totalPages: number }> => {
     const queryParams = new URLSearchParams();
     if (params?.status) queryParams.append('status', params.status);
     if (params?.type) queryParams.append('type', params.type);
+    if (params?.eventId) queryParams.append('eventId', params.eventId);
     if (params?.page !== undefined) queryParams.append('page', params.page.toString());
     if (params?.size !== undefined) queryParams.append('size', params.size.toString());
 

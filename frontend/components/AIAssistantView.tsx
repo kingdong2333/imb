@@ -1,6 +1,8 @@
 // AI助手主视图
-import React, { useState } from 'react';
-import { AITask } from '../types/ai';
+import React, { useState, useEffect } from 'react';
+import { AITask, AITaskType } from '../types/ai';
+import { IEvent } from '../types';
+import { aiTaskApi } from '../services/aiApiService';
 import AITaskListView from './AITaskListView';
 import AITaskModal from './AITaskModal';
 import AIConversationView from './AIConversationView';
@@ -9,10 +11,43 @@ import AIKnowledgeView from './AIKnowledgeView';
 
 type ViewMode = 'list' | 'conversation' | 'note' | 'knowledge';
 
-const AIAssistantView: React.FC = () => {
+interface AIAssistantViewProps {
+  targetEvent?: IEvent | null;
+  onClearTarget?: () => void;
+}
+
+const AIAssistantView: React.FC<AIAssistantViewProps> = ({ targetEvent, onClearTarget }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [selectedTask, setSelectedTask] = useState<AITask | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleTargetEvent = async () => {
+      if (!targetEvent) return;
+      
+      try {
+        const result = await aiTaskApi.getTasks({ eventId: targetEvent.id });
+        if (result.content.length > 0) {
+          handleSelectTask(result.content[0]);
+        } else {
+          // Create new task
+          const newTask = await aiTaskApi.createTask({
+             title: targetEvent.title,
+             description: targetEvent.description || '',
+             type: AITaskType.LEARNING,
+             eventId: targetEvent.id
+          });
+          handleSelectTask(newTask);
+        }
+      } catch (error) {
+        console.error("Failed to handle target event", error);
+      } finally {
+        if (onClearTarget) onClearTarget();
+      }
+    };
+    
+    handleTargetEvent();
+  }, [targetEvent]);
 
   const handleSelectTask = (task: AITask) => {
     setSelectedTask(task);

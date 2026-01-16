@@ -14,4 +14,5 @@ public interface AITaskRepository extends JpaRepository<AITask, Long> {
     Page<AITask> findByType(AITask.AITaskType type, Pageable pageable);
     Page<AITask> findByStatusAndType(AITask.AITaskStatus status, AITask.AITaskType type, Pageable pageable);
     List<AITask> findByEventId(String eventId);
+    Page<AITask> findByEventId(String eventId, Pageable pageable);
 }

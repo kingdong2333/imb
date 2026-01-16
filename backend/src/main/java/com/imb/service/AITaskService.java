@@ -36,11 +36,13 @@ public class AITaskService {
         return AITaskDTO.fromEntity(task);
     }
     
-    public Page<AITaskDTO> getTasks(AITask.AITaskStatus status, AITask.AITaskType type, int page, int size) {
+    public Page<AITaskDTO> getTasks(AITask.AITaskStatus status, AITask.AITaskType type, String eventId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<AITask> tasks;
         
-        if (status != null && type != null) {
+        if (eventId != null && !eventId.isEmpty()) {
+            tasks = taskRepository.findByEventId(eventId, pageable);
+        } else if (status != null && type != null) {
             tasks = taskRepository.findByStatusAndType(status, type, pageable);
         } else if (status != null) {
             tasks = taskRepository.findByStatus(status, pageable);

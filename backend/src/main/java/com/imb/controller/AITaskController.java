@@ -31,9 +31,10 @@ public class AITaskController {
     public ResponseEntity<Page<AITaskDTO>> getTasks(
             @RequestParam(required = false) AITask.AITaskStatus status,
             @RequestParam(required = false) AITask.AITaskType type,
+            @RequestParam(required = false) String eventId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        Page<AITaskDTO> tasks = taskService.getTasks(status, type, page, size);
+        Page<AITaskDTO> tasks = taskService.getTasks(status, type, eventId, page, size);
         return ResponseEntity.ok(tasks);
     }
     
