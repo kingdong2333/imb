@@ -110,13 +110,27 @@ const DailyView: React.FC<DailyViewProps> = ({
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                     <h3 className={`text-lg font-semibold truncate pr-8 transition-colors ${
-                       event.status === EventStatus.DONE ? 'text-gray-400 line-through' : 'text-gray-900'
-                     }`}>
-                      {event.title}
-                     </h3>
+                     <div className="flex items-center gap-2 flex-1 min-w-0">
+                       <h3 className={`text-lg font-semibold truncate transition-colors ${
+                         event.status === EventStatus.DONE ? 'text-gray-400 line-through' : 'text-gray-900'
+                       }`}>
+                        {event.title}
+                       </h3>
+                       {event.type === EventType.LEARNING && (
+                         <button
+                           onClick={(e) => {
+                             e.stopPropagation();
+                             onOpenAI(event);
+                           }}
+                           className="p-1.5 text-purple-500 hover:bg-purple-50 hover:text-purple-700 rounded-lg transition-colors"
+                           title="Chat with AI Assistant"
+                         >
+                           <Sparkles size={18} />
+                         </button>
+                       )}
+                     </div>
                      {event.time && (
-                       <span className="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                       <span className="shrink-0 text-sm font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded ml-2">
                          {event.time}
                        </span>
                      )}
@@ -148,15 +162,6 @@ const DailyView: React.FC<DailyViewProps> = ({
 
                 {/* Actions (Hover) */}
                 <div className={`flex flex-col gap-1 transition-opacity ${hoveredEventId === event.id ? 'opacity-100' : 'opacity-0 md:opacity-0'}`}>
-                  {event.type === EventType.LEARNING && (
-                    <button
-                      onClick={() => onOpenAI(event)}
-                      className="p-2 text-purple-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg"
-                      title="AI Assistant"
-                    >
-                      <Sparkles size={16} />
-                    </button>
-                  )}
                   <button 
                     onClick={() => onEdit(event)}
                     className="p-2 text-gray-400 hover:text-boss-600 hover:bg-gray-100 rounded-lg"
